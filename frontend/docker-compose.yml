@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  couchdb:
+    image: couchdb:3.3
+    container_name: couchdb
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin # 관리자 사용자 이름
+      COUCHDB_PASSWORD: password # 관리자 비밀번호
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+
+volumes:
+  couchdb_data:

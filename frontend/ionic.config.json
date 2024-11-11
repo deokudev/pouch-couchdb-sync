@@ -1,0 +1,7 @@
+{
+  "name": "pouch-couchdb-sync",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

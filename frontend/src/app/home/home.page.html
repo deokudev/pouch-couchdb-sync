@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title> Pouch CouchDB Sync </ion-title>
+    <ion-buttons start>
+      <ion-button icon-only (click)="logout()">
+        <ion-icon name="power"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons end>
+      <ion-button icon-only (click)="createTodo()">
+        <ion-icon name="cloud-upload"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let todo of todos">
+      <ion-item> {{todo.title}} </ion-item>
+
+      <ion-item-options>
+        <ion-button icon-only color="light" (click)="updateTodo(todo)">
+          <ion-icon name="create"></ion-icon>
+        </ion-button>
+        <ion-button icon-only color="primary" (click)="deleteTodo(todo)">
+          <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
