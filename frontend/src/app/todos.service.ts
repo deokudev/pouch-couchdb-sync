@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import PouchDB from 'pouchdb';
-import PouchDBFind from 'pouchdb-find';
-import { environment } from 'src/environments/environment';
+import { Injectable } from "@angular/core";
+import PouchDB from "pouchdb";
+import PouchDBFind from "pouchdb-find";
+import { environment } from "src/environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class TodosService {
   data: any;
@@ -15,14 +15,9 @@ export class TodosService {
 
   init(details: any) {
     PouchDB.plugin(PouchDBFind); // PouchDB Find 플러그인 등록
-    this.db = new PouchDB('cloudo');
+    this.db = new PouchDB("cloudo");
 
-    this.remote = details.userDBs.supertest
-      .replace(
-        /127.0.0.1:5984/,
-        environment.couchUrl.replace(/^https?:\/\//, '')
-      )
-      .replace(/^https?:\/\//, 'https://');
+    this.remote = details.userDBs.supertest.replace(/127.0.0.1:5984/, environment.couchUrl.replace(/^https?:\/\//, ""));
 
     let options = {
       live: true,
@@ -39,7 +34,7 @@ export class TodosService {
     this.data = null;
 
     this.db.destroy().then(() => {
-      console.log('database removed');
+      console.log("database removed");
     });
   }
 
@@ -62,11 +57,9 @@ export class TodosService {
 
           resolve(this.data);
 
-          this.db
-            .changes({ live: true, since: 'now', include_docs: true })
-            .on('change', (change: any) => {
-              this.handleChange(change);
-            });
+          this.db.changes({ live: true, since: "now", include_docs: true }).on("change", (change: any) => {
+            this.handleChange(change);
+          });
         })
         .catch((error: any) => {
           console.log(error);
