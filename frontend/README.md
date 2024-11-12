@@ -8,7 +8,7 @@ cd pouch-couchdb-sync
 
 ionic g page Login
 ionic g page Signup
-ionic g service Todos
+ionic g service PouchDb
 
 npm install pouchdb --save
 npm install @types/pouchdb --save-dev

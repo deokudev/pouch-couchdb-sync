@@ -17,10 +17,7 @@ app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "DELETE, PUT");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
@@ -48,7 +45,7 @@ const config = {
     },
   },
   security: {
-    maxFailedLogins: 3,
+    maxFailedLogins: 5,
     lockoutTime: 600,
     tokenLife: 86400,
     // 사용자가 가입할 때 자동으로 인증되므로 가입 후 로그인하는 대신 바로 메인 애플리케이션으로 이동할 수 있습니다.
@@ -56,13 +53,13 @@ const config = {
   },
   // 생성될 데이터베이스를 정의
   userDBs: {
-    // 현재는 supertest 라는 단일 개인 데이터베이스를 가지고 있습니다 . 즉, 가입하는 각 사용자에게 다음 형식으로 생성되는 자체 개인 데이터베이스가 제공됩니다.
+    // 현재는 personal 라는 단일 개인 데이터베이스를 가지고 있습니다 . 즉, 가입하는 각 사용자에게 다음 형식으로 생성되는 자체 개인 데이터베이스가 제공됩니다.
     // SuperLogin에는 여러 사용자가 접근할 수 있는 공유 데이터베이스를 생성하도록 지시할 수도 있음
     defaultDBs: {
-      private: ["supertest"],
+      private: ["personal"],
     },
     model: {
-      supertest: {
+      personal: {
         permissions: ["_reader", "_writer", "_replicator"],
       },
     },
@@ -74,7 +71,7 @@ const config = {
 
 // SuperLogin 초기화 및 라우터 설정
 const superlogin = new SuperLogin(config);
-// /auth/login, /auth/register 사용 가능하
+// /auth/login, /auth/register 사용 가능
 
 app.use("/auth", superlogin.router);
 

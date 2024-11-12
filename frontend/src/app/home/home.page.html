@@ -7,8 +7,8 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons end>
-      <ion-button icon-only (click)="createTodo()">
-        <ion-icon name="cloud-upload"></ion-icon>
+      <ion-button icon-only (click)="createDocument()">
+        <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -16,14 +16,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let todo of todos">
-      <ion-item> {{todo.title}} </ion-item>
+    <ion-item-sliding *ngFor="let document of documents">
+      <ion-item> {{document.title}} </ion-item>
 
       <ion-item-options>
-        <ion-button icon-only color="light" (click)="updateTodo(todo)">
+        <ion-button icon-only color="light" (click)="updateDocument(document)">
           <ion-icon name="create"></ion-icon>
         </ion-button>
-        <ion-button icon-only color="primary" (click)="deleteTodo(todo)">
+        <ion-button icon-only color="primary" (click)="deleteDocument(document)">
           <ion-icon name="checkmark"></ion-icon>
         </ion-button>
       </ion-item-options>

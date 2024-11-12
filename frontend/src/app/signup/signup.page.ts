@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
-import { TodosService } from '../todos.service';
-import { environment } from 'src/environments/environment';
+import { Component } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { NavController } from "@ionic/angular";
+import { PouchDbService } from "../pouchdb.service";
+import { environment } from "src/environments/environment";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: 'signup.page.html',
-  styleUrls: ['signup.page.scss'],
+  selector: "app-signup",
+  templateUrl: "signup.page.html",
+  styleUrls: ["signup.page.scss"],
 })
 export class SignupPage {
   name?: string;
@@ -16,15 +17,11 @@ export class SignupPage {
   password?: string;
   confirmPassword?: string;
 
-  constructor(
-    private nav: NavController,
-    private http: HttpClient,
-    private todoService: TodosService
-  ) {}
+  constructor(private router: Router, private http: HttpClient, private documentService: PouchDbService) {}
 
   register() {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     });
 
     const user = {
@@ -35,16 +32,14 @@ export class SignupPage {
       confirmPassword: this.confirmPassword,
     };
 
-    this.http
-      .post(environment.apiUrl + '/auth/register', user, { headers })
-      .subscribe(
-        (res: any) => {
-          this.todoService.init(res);
-          this.nav.navigateRoot('/home'); // 새로운 API로 변경
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
+    this.http.post(environment.apiUrl + "/auth/register", user, { headers }).subscribe(
+      (res: any) => {
+        this.documentService.init(res);
+        this.router.navigateByUrl("/home"); // 새로운 API로 변경
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   }
 }

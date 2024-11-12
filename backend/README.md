@@ -98,13 +98,13 @@ var config = {
   },
   // 생성될 데이터베이스를 정의
   userDBs: {
-    // 현재는 supertest 라는 단일 개인 데이터베이스를 가지고 있습니다 . 즉, 가입하는 각 사용자에게 다음 형식으로 생성되는 자체 개인 데이터베이스가 제공됩니다.
+    // 현재는 personal 라는 단일 개인 데이터베이스를 가지고 있습니다 . 즉, 가입하는 각 사용자에게 다음 형식으로 생성되는 자체 개인 데이터베이스가 제공됩니다.
     // SuperLogin에는 여러 사용자가 접근할 수 있는 공유 데이터베이스를 생성하도록 지시할 수도 있음
     defaultDBs: {
-      private: ["supertest"],
+      private: ["personal"],
     },
     model: {
-      supertest: {
+      personal: {
         permissions: ["_reader", "_writer", "_replicator"],
       },
     },
