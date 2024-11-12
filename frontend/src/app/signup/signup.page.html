@@ -10,57 +10,31 @@
       <ion-list inset>
         <ion-item>
           <ion-label><ion-icon name="person"></ion-icon></ion-label>
-          <ion-input
-            [(ngModel)]="name"
-            placeholder="Name"
-            type="text"
-          ></ion-input>
+          <ion-input [(ngModel)]="name" placeholder="Name" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label><ion-icon name="person"></ion-icon></ion-label>
-          <ion-input
-            [(ngModel)]="username"
-            placeholder="Username"
-            type="text"
-          ></ion-input>
+          <ion-input [(ngModel)]="username" placeholder="Username" type="text"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label><ion-icon name="mail"></ion-icon></ion-label>
-          <ion-input
-            [(ngModel)]="email"
-            placeholder="Email"
-            type="email"
-          ></ion-input>
+          <ion-input [(ngModel)]="email" placeholder="Email" type="email"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label
-            ><ion-icon name="lock-closed-outline"></ion-icon
-          ></ion-label>
-          <ion-input
-            [(ngModel)]="password"
-            placeholder="Password"
-            type="password"
-          ></ion-input>
+          <ion-label><ion-icon name="lock-closed-outline"></ion-icon></ion-label>
+          <ion-input [(ngModel)]="password" placeholder="Password" type="password"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label
-            ><ion-icon name="lock-closed-outline"></ion-icon
-          ></ion-label>
-          <ion-input
-            [(ngModel)]="confirmPassword"
-            placeholder="Confirm password"
-            type="password"
-          ></ion-input>
+          <ion-label><ion-icon name="lock-closed-outline"></ion-icon></ion-label>
+          <ion-input [(ngModel)]="confirmPassword" placeholder="Confirm password" type="password"></ion-input>
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="register()" class="continue-button">
-        Register
-      </ion-button>
+      <ion-button (click)="handleClickRegister()" class="continue-button"> Register </ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

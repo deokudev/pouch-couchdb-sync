@@ -1,9 +1,7 @@
 import { Component } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { NavController } from "@ionic/angular";
 import { PouchDbService } from "../pouchdb.service";
-import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
+import { AuthService } from "../auth/auth.service";
 
 @Component({
   selector: "app-signup",
@@ -17,29 +15,17 @@ export class SignupPage {
   password?: string;
   confirmPassword?: string;
 
-  constructor(private router: Router, private http: HttpClient, private documentService: PouchDbService) {}
+  constructor(private router: Router, private documentService: PouchDbService, private authService: AuthService) {}
 
-  register() {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
+  async handleClickRegister() {
+    const res = await this.authService.register({
+      name: this.name || "",
+      username: this.username || "",
+      email: this.email || "",
+      password: this.password || "",
+      confirmPassword: this.confirmPassword || "",
     });
-
-    const user = {
-      name: this.name,
-      username: this.username,
-      email: this.email,
-      password: this.password,
-      confirmPassword: this.confirmPassword,
-    };
-
-    this.http.post(environment.apiUrl + "/auth/register", user, { headers }).subscribe(
-      (res: any) => {
-        this.documentService.init(res);
-        this.router.navigateByUrl("/home"); // 새로운 API로 변경
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    this.documentService.init(res);
+    this.router.navigateByUrl("/home"); // 새로운 API로 변경
   }
 }

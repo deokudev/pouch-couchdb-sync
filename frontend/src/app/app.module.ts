@@ -8,6 +8,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { PouchDbService } from "./pouchdb.service";
 import { HttpClientModule } from "@angular/common/http";
+import { AuthModule } from "./auth/auth.module";
 
 @NgModule({
   declarations: [AppComponent], // Page 추가
@@ -16,6 +17,7 @@ import { HttpClientModule } from "@angular/common/http";
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule, // Http 요청을 위함
+    AuthModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, PouchDbService], // Service 추가
   bootstrap: [AppComponent],
