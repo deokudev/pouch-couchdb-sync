@@ -1,6 +1,6 @@
 {
   "name": "couch-pouchdb-sync-be",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A sample Node.js app using Express",
   "engines": {
     "node": ">=16.0.0"
@@ -15,10 +15,13 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "del": "^6.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
-    "superlogin": "github:deokudev/superlogin"
+    "passport-google-token": "^0.1.2",
+    "superlogin": "github:deokudev/superlogin",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.0"

@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  couchdb:
+    image: couchdb:3.3
+    container_name: couchdb1
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin # 관리자 사용자 이름
+      COUCHDB_PASSWORD: password # 관리자 비밀번호
+    volumes:
+      - couchdb_data:/opt/couchdb/data
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/opt/redis/data
+    # 보통 Redis는 로컬에서 사용되며, 비밀번호를 걸지 않음
+    # 아래 명령어 활성화 시, 메모리에서 디스크로 지속적으로 기록하도록 함(영구적)
+    # command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - backend
+
+volumes:
+  couchdb_data:
+  redis_data:
+
+networks:
+  backend:
+    driver: bridge
