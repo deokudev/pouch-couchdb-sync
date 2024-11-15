@@ -10,17 +10,19 @@ import { AuthService } from "../auth/auth.service";
 })
 export class SignupPage {
   name?: string;
-  username?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
 
-  constructor(private router: Router, private documentService: PouchDbService, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private documentService: PouchDbService,
+    private authService: AuthService
+  ) {}
 
   async handleClickRegister() {
     const res = await this.authService.register({
       name: this.name || "",
-      username: this.username || "",
       email: this.email || "",
       password: this.password || "",
       confirmPassword: this.confirmPassword || "",

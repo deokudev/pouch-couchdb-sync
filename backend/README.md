@@ -59,6 +59,12 @@ curl -X PUT http://admin:password@localhost:5984/_users
 
 ```
 
+couch db CORS 설정
+
+```
+http://localhost:5984/\_utils 사이트에서 ENABLE CORS
+```
+
 6. 실행
 
 ```
