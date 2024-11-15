@@ -1,4 +1,4 @@
-# 로그인 기능을 위한 superlogin 기반 express 서버
+# CouchDb 동기화 로그인 기능을 위한 CouchAuth (SuperLogin) 기반 Express 서버
 
 # History
 
@@ -39,95 +39,35 @@
 npm install
 ```
 
-3. server.js 파일 작성 후, 아래 내용 추가 (SuperLogin 라이브러리 사용)
+3. server.js 파일 작성 후, 아래 내용 추가 (CouchAuth 라이브러리 사용)
+
+4. docker-compose를 통한 couchdb, redis 실행
 
 ```
-var express = require("express");
-var http = require("http");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
-var cors = require("cors");
-var SuperLogin = require("superlogin");
-
-var app = express();
-app.set("port", process.env.PORT || 3000);
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
-
-// Express 설정
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "DELETE, PUT");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
-// 이 구성 객체는 SuperLogin을 초기화하는 데 사용되며, 변경할 수 있는 다양한 설정을 포함
-var config = {
-  dbServer: {
-    protocol: "http://",
-    // Pouch db host url, port, username, password
-    host: "localhost:5984",
-    user: "admin",
-    password: "password",
-    userDB: "sl-users",
-    couchAuthDB: "_users",
-  },
-  // 확인 이메일, 비밀번호 분실 이메일 등을 보낼 때 사용
-  mailer: {
-    fromEmail: "gmail.user@gmail.com",
-    options: {
-      service: "Gmail",
-      auth: {
-        user: "gmail.user@gmail.com",
-        pass: "userpass",
-      },
-    },
-  },
-  security: {
-    maxFailedLogins: 3,
-    lockoutTime: 600,
-    tokenLife: 86400,
-    // 사용자가 가입할 때 자동으로 인증되므로 가입 후 로그인하는 대신 바로 메인 애플리케이션으로 이동할 수 있습니다.
-    loginOnRegistration: true,
-  },
-  // 생성될 데이터베이스를 정의
-  userDBs: {
-    // 현재는 personal 라는 단일 개인 데이터베이스를 가지고 있습니다 . 즉, 가입하는 각 사용자에게 다음 형식으로 생성되는 자체 개인 데이터베이스가 제공됩니다.
-    // SuperLogin에는 여러 사용자가 접근할 수 있는 공유 데이터베이스를 생성하도록 지시할 수도 있음
-    defaultDBs: {
-      private: ["personal"],
-    },
-    model: {
-      personal: {
-        permissions: ["_reader", "_writer", "_replicator"],
-      },
-    },
-  },
-  providers: {
-    local: true,
-  },
-};
-// 세부 설정 참조 : https://github.com/colinskow/superlogin?tab=readme-ov-file
-
-// Initialize SuperLogin
-var superlogin = new SuperLogin(config);
-
-// Mount SuperLogin's routes to our app
-// /auth/login, /auth/register 사용 가능하게 됨
-app.use("/auth", superlogin.router);
-
-app.listen(app.get("port"));
-console.log("App listening on " + app.get("port"));
+docker-compose up -d
 ```
 
-4. 실행
+5. user 데이터 베이스 생성 (couchdb 3.0부터는 클러스터링 기능 때문에 기본 테이블 생성 안함)
+   아래 방식 또는 http://localhost:5984/\_utils 사이트에서, 직접 생성
+
+```
+# sl-users 데이터베이스 생성
+curl -X PUT http://admin:password@localhost:5984/sl-users
+
+# _users 데이터베이스 생성 (CouchDB의 내부 데이터베이스로 주로 사용자를 관리하는 데 사용)
+curl -X PUT http://admin:password@localhost:5984/_users
+
+```
+
+6. 실행
 
 ```
 npm run start
+```
+
+7. 정리
+
+```
+# volume까지 정리
+docker-compose down -v
 ```

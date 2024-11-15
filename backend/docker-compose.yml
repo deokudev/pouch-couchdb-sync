@@ -3,7 +3,7 @@ version: "3.8"
 services:
   couchdb:
     image: couchdb:3.3
-    container_name: couchdb1
+    container_name: couchdb
     restart: always
     ports:
       - "5984:5984"
@@ -14,6 +14,7 @@ services:
       - couchdb_data:/opt/couchdb/data
     networks:
       - backend
+    user: "couchdb:couchdb" # 사용자를 명시적으로 지정하여 권한 문제 방지
 
   redis:
     image: redis:latest
@@ -28,6 +29,7 @@ services:
     # command: ["redis-server", "--appendonly", "yes"]
     networks:
       - backend
+    user: "redis:redis" # Redis 사용자로 실행하여 권한 문제 방지
 
 volumes:
   couchdb_data:
