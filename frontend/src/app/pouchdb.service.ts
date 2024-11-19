@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { nanoid } from "nanoid";
 import PouchDB from "pouchdb";
 import PouchDBFind from "pouchdb-find";
 import { environment } from "src/environments/environment";
@@ -28,6 +29,7 @@ export class PouchDbService {
       live: true,
       // 장애 시, 재시도 활성화
       retry: true,
+      since: "now",
     });
 
     console.log("Database initialized:", this.db);
@@ -64,7 +66,12 @@ export class PouchDbService {
 
   async createDocument(document: any): Promise<void> {
     try {
-      await this.db.post(document);
+      // info: post 사용 시, id 채번을 다른 곳에서 하므로 put 권장
+      await this.db.put({
+        // PouchDB와 CouchDB에서 ID는 밑줄로 시작할 수 없습니다.
+        _id: "id" + nanoid(),
+        ...document,
+      });
     } catch (error) {
       console.error("Error creating document:", error);
     }
@@ -72,6 +79,7 @@ export class PouchDbService {
 
   async updateDocument(document: any): Promise<void> {
     try {
+      // info: 수정 시에는, _id와 _rev가 필수값
       await this.db.put(document);
     } catch (error) {
       console.error("Error updating document:", error);
